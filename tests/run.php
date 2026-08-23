@@ -7,4 +7,5 @@ expect(array_column(CanvasCommandKind::cases(),'value')===range(1,12),'Command v
 $canvas=(new Canvas())->clear('#ffffffff')->save()->translate(20,30)->fillRect(0,0,120,80,'#ff3366ff')->circle(60,40,20,'#ffffffff')->text('PAM',20,70,24,'#ffffffff')->restore();
 expect(count($canvas->scene()->commands)===7,'Display list command count changed.');expect(CanvasView::make($canvas->scene())->toElement()::class===CustomView::class,'Canvas is not a native custom view.');
 try{(new Canvas())->text(str_repeat('x',4097),0,0,12,'#fff');throw new RuntimeException('Oversized text accepted.');}catch(InvalidArgumentException){}
+try{(new Canvas())->restore()->scene();throw new RuntimeException('Unbalanced restore accepted.');}catch(InvalidArgumentException){}
 echo "PAM Native Canvas contracts passed.\n";
