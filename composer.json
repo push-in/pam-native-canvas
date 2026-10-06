@@ -3,6 +3,23 @@
     "description": "Retained-mode native 2D canvas for PAM Native.",
     "type": "pam-native-plugin",
     "license": "Apache-2.0",
+    "keywords": [
+        "pam",
+        "native",
+        "canvas",
+        "2d",
+        "graphics",
+        "charts",
+        "android",
+        "ios",
+        "php"
+    ],
+    "homepage": "https://github.com/push-in/pam-native-canvas",
+    "support": {
+        "issues": "https://github.com/push-in/pam-native-canvas/issues",
+        "source": "https://github.com/push-in/pam-native-canvas",
+        "docs": "https://push-in.github.io/pam-docs/packages/native-canvas/"
+    },
     "require": {
         "php": "^8.5",
         "pushinbr/pam-native": "^0.8 || ^0.9 || ^0.10 || ^1.0"

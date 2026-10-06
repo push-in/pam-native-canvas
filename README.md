@@ -122,6 +122,27 @@ Bump `revision` whenever the scene changes so the native view redraws.
 Scenes are immutable, capped at 10,000 commands, and use integer-backed command/event kinds.
 Platform support: Android API 26+, iOS 15+, PHP 8.5+, PAM Native 0.8–1.x.
 
+### Reference and examples
+
+- [Command reference](docs/commands.md): every kind, its arguments, the enums, `Path`, limits and
+  pointer events.
+- [`examples/ProgressRing.php`](examples/ProgressRing.php): arcs with round caps and a centered label.
+- Ready-made charts (line, area, bar, donut, sparkline, progress ring) live in
+  [`pushinbr/pam-native-charts`](https://github.com/push-in/pam-native-charts), which builds on this
+  plugin.
+
+### Contributing
+
+```bash
+composer install
+php tests/run.php            # PHP contracts (wire snapshots, validation, enums)
+vendor/bin/phpstan analyse   # level max
+vendor/bin/pam-native-plugin validate pam-native.plugin.json
+```
+
+Keep Android and iOS renderers in parity: a new command kind is appended to `CanvasCommandKind`,
+`pam-native.idl.json`, both renderers and `docs/commands.md`, with a snapshot test in `tests/run.php`.
+
 - [PAM introduction](https://push-in.github.io/pam-docs/introduction/)
 - [PAM Native overview](https://push-in.github.io/pam-docs/native/overview/)
 - [Report an issue](https://github.com/push-in/pam-native-canvas/issues)

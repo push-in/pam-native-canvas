@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 - 2026-10-06
+
+- Documentation: full command reference (`docs/commands.md`), progress-ring example, Composer
+  metadata (keywords, homepage, support) and contribution notes.
+
 ## 0.2.0 - 2026-10-05
 
 - Add display-list kinds 13–25: `RoundRect`, `StrokeRoundRect`, `Arc`, `Sector`,
