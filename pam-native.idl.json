@@ -1,1 +1,65 @@
-{"$schema":"vendor/pushinbr/pam-native-plugin-kit/resources/pam-native.idl.schema.json","version":1,"namespace":"Pam.Canvas","enums":{"CanvasCommandKind":{"Save":1,"Restore":2,"Translate":3,"Rotate":4,"Scale":5,"ClipRect":6,"Clear":7,"FillRect":8,"StrokeRect":9,"Circle":10,"Line":11,"Text":12},"CanvasEventKind":{"PointerDown":1,"PointerMove":2,"PointerUp":3,"PointerCancel":4}},"records":{}}
+{
+    "$schema": "vendor/pushinbr/pam-native-plugin-kit/resources/pam-native.idl.schema.json",
+    "version": 1,
+    "namespace": "Pam.Canvas",
+    "enums": {
+        "CanvasCommandKind": {
+            "Save": 1,
+            "Restore": 2,
+            "Translate": 3,
+            "Rotate": 4,
+            "Scale": 5,
+            "ClipRect": 6,
+            "Clear": 7,
+            "FillRect": 8,
+            "StrokeRect": 9,
+            "Circle": 10,
+            "Line": 11,
+            "Text": 12,
+            "RoundRect": 13,
+            "StrokeRoundRect": 14,
+            "Arc": 15,
+            "Sector": 16,
+            "Polyline": 17,
+            "Polygon": 18,
+            "Path": 19,
+            "GradientRect": 20,
+            "GradientPath": 21,
+            "Alpha": 22,
+            "Label": 23,
+            "Shadow": 24,
+            "DashedLine": 25
+        },
+        "CanvasEventKind": {
+            "PointerDown": 1,
+            "PointerMove": 2,
+            "PointerUp": 3,
+            "PointerCancel": 4
+        },
+        "LineCap": {
+            "Butt": 1,
+            "Round": 2
+        },
+        "LineJoin": {
+            "Miter": 1,
+            "Round": 2,
+            "Bevel": 3
+        },
+        "PathMode": {
+            "Fill": 1,
+            "Stroke": 2
+        },
+        "TextAlign": {
+            "Left": 1,
+            "Center": 2,
+            "Right": 3
+        },
+        "FontWeight": {
+            "Regular": 1,
+            "Medium": 2,
+            "SemiBold": 3,
+            "Bold": 4
+        }
+    },
+    "records": {}
+}

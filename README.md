@@ -54,22 +54,73 @@ This is a horizontal retained-mode 2D drawing primitive, not a UI framework, fee
 template, GPU shader engine, or 3D engine. PHP builds a bounded display list; Android Canvas and
 Core Graphics render it without calling PHP for each frame.
 
+A line chart with a gradient area, a 2dp curve, a dashed baseline and aligned labels:
+
 ```php
 use Pam\Native\Canvas\Canvas;
 use Pam\Native\Canvas\CanvasView;
+use Pam\Native\Canvas\FontWeight;
+use Pam\Native\Canvas\Path;
+use Pam\Native\Canvas\PathMode;
+use Pam\Native\Canvas\TextAlign;
+
+$line = Path::start(0, 120)
+    ->curveTo(40, 120, 60, 40, 100, 40)
+    ->curveTo(140, 40, 160, 90, 200, 90)
+    ->curveTo(240, 90, 260, 20, 300, 20);
+
+$area = $line->lineTo(300, 160)->lineTo(0, 160)->close();
 
 $scene = (new Canvas())
-    ->clear('#10131aff')
-    ->fillRect(24, 24, 240, 120, '#7557ffff')
-    ->circle(144, 84, 32, '#ffffffff')
-    ->text('PAM', 96, 164, 28, '#ffffffff')
+    ->dashedLine(0, 160, 300, 160, '#2c3947', 1, 4, 4)
+    ->save()
+        ->alpha(0.35)
+        ->gradientPath($area, 0, 20, 0, 160, '#19c5ff', '#19c5ff00')
+    ->restore()
+    ->path($line, '#19c5ff', 2, PathMode::Stroke)
+    ->circle(300, 20, 4, '#19c5ff')
+    ->label('R$ 1.234', 300, 10, 12, '#f4f7fa', TextAlign::Right, FontWeight::SemiBold)
+    ->label('Seg', 0, 178, 11, '#a0adbb')
+    ->label('Sex', 300, 178, 11, '#a0adbb', TextAlign::Right)
     ->scene();
 
-return CanvasView::make($scene);
+return CanvasView::make($scene, revision: 1)->dp();
 ```
 
+### Commands
+
+| Method | Draws |
+| --- | --- |
+| `save()` / `restore()` / `translate()` / `rotate()` / `scale()` / `clipRect()` | Canvas state |
+| `alpha($opacity)` / `shadow($color, $blur, $dx, $dy)` | Opacity and shadow for the following commands, until `restore()` |
+| `clear()` / `fillRect()` / `roundRect()` / `circle()` / `sector()` / `polygon()` | Fills |
+| `gradientRect()` / `gradientPath()` | Linear-gradient fills (points are absolute) |
+| `strokeRect()` / `strokeRoundRect()` / `line()` / `dashedLine()` / `arc()` / `polyline()` | Strokes |
+| `path(Path $path, $color, $lineWidth, PathMode $mode)` | Fill or stroke a `Path` (`M L C Q Z`, absolute coordinates) |
+| `text()` / `label($text, $x, $y, $size, $color, TextAlign, FontWeight)` | Text; `y` is the baseline |
+
+Angles are degrees, 0° at 12 o'clock, clockwise positive. Colors are CSS hex: `#rgb`, `#rrggbb`
+or `#rrggbbaa`; anything else throws `InvalidArgumentException`.
+
+### Units and sizing
+
+`CanvasView::make($scene)->dp()` (the default) draws in density-independent pixels: Android scales
+the canvas by the display density and iOS already draws in points. `->px()` draws in raw device
+pixels. Pointer events (`onPointer`) arrive in the units the scene uses.
+
+The view takes its size from layout like any element (`class`/`style` width and height); give it
+an explicit width and height and draw inside that box.
+
+```php
+CanvasView::make($scene, revision: $tick)
+    ->dp()
+    ->onPointer(fn (CanvasEventKind $kind, float $x, float $y) => $this->select($x));
+```
+
+Bump `revision` whenever the scene changes so the native view redraws.
+
 Scenes are immutable, capped at 10,000 commands, and use integer-backed command/event kinds.
-Platform support: Android API 26+, iOS 15+, PHP 8.5+, PAM Native 0.8.x.
+Platform support: Android API 26+, iOS 15+, PHP 8.5+, PAM Native 0.8–1.x.
 
 - [PAM introduction](https://push-in.github.io/pam-docs/introduction/)
 - [PAM Native overview](https://push-in.github.io/pam-docs/native/overview/)
